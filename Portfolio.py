@@ -81,8 +81,10 @@ def form():
     w_unit = str("Unit: ") + w_unit
     h_unit = str("Unit: ") + h_unit
 
-    # Start inference   
-    data = [gender, height, weight]
+    # Start inference
+    # height = min(200, int(height))
+    # weight = min(160, int(weight))   
+    data = [gender, min(200, int(height)), min(160, int(weight))]
 
     #DT = saved_clf.predict([data])
     DT_proba = saved_clf.predict_proba([data])
