@@ -125,9 +125,9 @@ def form():
     #Ensemble_hard_voted = (DT + RF + SVC + NB + LR + NN)/6
     try:
         Ensemble_hard_voted = mode([DT ,RF ,SVC ,NB ,LR ,NN])
-        len_hard_voted = [DT ,RF ,SVC ,NB ,LR ,NN].count(Ensemble_hard_voted)
-        if len_hard_voted < 3:
-            Ensemble_hard_voted = round((DT + RF + SVC + NB + LR + NN)/6)
+        # len_hard_voted = [DT ,RF ,SVC ,NB ,LR ,NN].count(Ensemble_hard_voted)
+        # if len_hard_voted < 3:
+        #     Ensemble_hard_voted = round((DT + RF + SVC + NB + LR + NN)/6)
     except:
         sum_list = [a + b + c + d + e + f for a, b, c, d, e, f in zip(DT_proba[0], 
                                                                       RF_proba[0], 
@@ -135,7 +135,11 @@ def form():
                                                                       NB_proba[0],
                                                                       LR_proba[0],
                                                                       NN_proba)]
-        Ensemble_hard_voted = sum_list.index(max(sum_list))
+        # print(max(sum_list))
+        # print(type(sum_list))
+        # print(max(sum_list[0]))
+        Ensemble_hard_voted = sum_list[0].tolist().index(max(sum_list[0]))
+        # print(Ensemble_hard_voted)
 
     #print(len_hard_voted)
     #print("The results of Ensemble model is",int(round(Ensemble_hard_voted[0])))
