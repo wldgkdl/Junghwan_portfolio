@@ -14,6 +14,10 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
 from tensorflow.keras.models import load_model
+from sklearn.ensemble import AdaBoostClassifier
+from xgboost import XGBClassifier
+from sklearn.neighbors import KNeighborsClassifier
+
 
 import os
 #os.environ['KMP_DUPLICATE_LIB_OK']='True'
@@ -37,7 +41,14 @@ saved_NB = load('trained_models/nb.joblib')
 # 6. Neural Network
 saved_NN = load_model('trained_models/trained_NN.h5')
 
+# 7. Adaboost
+saved_AB = load('trained_models/AB.joblib')
 
+# 8. XGBoost
+saved_XGB = load('trained_models/XGB.joblib')
+
+# 9. KNN
+saved_knn = load('trained_models/trained_KNN.joblib')
 
 app = Flask(__name__)
 app.secret_key = "wjdghks3#"
@@ -96,6 +107,9 @@ def form():
     RF = np.argmax(RF_proba[0])
     #print(RF_proba)
     #print("The results of Random Forest is",RF[0])
+
+    AB_proba = saved_AB.predict_proba([data])
+    AB = np.argmax(AB_proba[0])
     
     SVC_proba = saved_svc.predict_proba([data])
     SVC = np.argmax(SVC_proba[0])
@@ -115,6 +129,12 @@ def form():
     LR = np.argmax(LR_proba[0])
     #print(LR_proba)
     #print("The results of Logistic Regression is",LR[0])
+
+    XGB_proba = saved_XGB.predict_proba(my_scaler.transform([transformed_data]))
+    XGB = np.argmax(XGB_proba[0])
+
+    KNN_proba = saved_knn.predict_proba(my_scaler.transform([transformed_data]))
+    KNN = np.argmax(KNN_proba[0])
 
     NN_proba = saved_NN.predict(my_scaler.transform([transformed_data]))
     NN = np.argmax(NN_proba)
@@ -168,6 +188,10 @@ def form():
     RF_proba = return_proba(RF_proba)
     RF_color = return_color(RF)
 
+    AB_class = index2class(AB)
+    AB_proba = return_proba(AB_proba)
+    AB_color = return_color(AB)
+
     SVC_class = index2class(SVC)
     SVC_proba = return_proba(SVC_proba)
     SVC_color = return_color(SVC)
@@ -179,6 +203,14 @@ def form():
     LR_class = index2class(LR)
     LR_proba = return_proba(LR_proba)
     LR_color = return_color(LR)
+
+    XGB_class = index2class(XGB)
+    XGB_proba = return_proba(XGB_proba)
+    XGB_color = return_color(XGB)
+
+    KNN_class = index2class(KNN)
+    KNN_proba = return_proba(KNN_proba)
+    KNN_color = return_color(KNN)
 
     NN_class = index2class(NN)
     NN_proba = return_proba(NN_proba)
