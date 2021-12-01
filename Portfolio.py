@@ -144,7 +144,7 @@ def form():
 
     #Ensemble_hard_voted = (DT + RF + SVC + NB + LR + NN)/6
     try:
-        Ensemble_hard_voted = mode([DT ,RF ,SVC ,NB ,LR ,NN])
+        Ensemble_hard_voted = mode([DT ,RF ,SVC ,NB ,LR ,NN, KNN, XGB, AB])
         # len_hard_voted = [DT ,RF ,SVC ,NB ,LR ,NN].count(Ensemble_hard_voted)
         # if len_hard_voted < 3:
         #     Ensemble_hard_voted = round((DT + RF + SVC + NB + LR + NN)/6)
@@ -154,6 +154,9 @@ def form():
                                                                       SVC_proba[0], 
                                                                       NB_proba[0],
                                                                       LR_proba[0],
+                                                                      KNN_proba[0],
+                                                                      XGB_proba[0],
+                                                                      AB_proba[0],
                                                                       NN_proba)]
         # print(max(sum_list))
         # print(type(sum_list))
@@ -242,6 +245,15 @@ def form():
                                           NN_class = NN_class,
                                           NN_proba = NN_proba,
                                           NN_color = NN_color,
+                                          AB_class = AB_class,
+                                          AB_proba = AB_proba,
+                                          AB_color = AB_color,
+                                          XGB_class = XGB_class,
+                                          XGB_proba = XGB_proba,
+                                          XGB_color = XGB_color,
+                                          KNN_class = KNN_class,
+                                          KNN_proba = KNN_proba,
+                                          KNN_color = KNN_color,
                                           Final_class = Final_class,
                                           Final_color = Final_color
                                           )

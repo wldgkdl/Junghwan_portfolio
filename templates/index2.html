@@ -244,6 +244,57 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="text-center">
+                                    <h5 class="mt-3 mb-1">K-nearest neighbors</h5>
+                                    <p class="m-0">{{KNN_class}}</p>
+                                    <br>
+                                    <span class="data-attr" data-peity='{ "fill": ["{{KNN_color}}", "#eeeeee"], "innerRadius": 70, "radius": 85 }'>{{KNN_proba}}/100
+                                    </span>
+                                    <br>
+                                    <br>
+                                    <p class="m-0">Gauge indicates confidence level of prediction</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <h5 class="mt-3 mb-1">Ada Boost</h5>
+                                    <p class="m-0">{{AB_class}}</p>
+                                    <br>
+                                    <span class="data-attr" data-peity='{ "fill": ["{{AB_color}}", "#eeeeee"], "innerRadius": 70, "radius": 85 }'>{{AB_proba}}/100
+                                    </span>
+                                    <br>
+                                    <br>
+                                    <p class="m-0">Gauge indicates confidence level of prediction</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <h5 class="mt-3 mb-1">XGBoost</h5>
+                                    <p class="m-0">{{XGB_class}}</p>
+                                    <br>
+                                    <span class="data-attr" data-peity='{ "fill": ["{{XGB_color}}", "#eeeeee"], "innerRadius": 70, "radius": 85 }'>{{XGB_proba}}/100
+                                    </span>
+                                    <br>
+                                    <br>
+                                    <p class="m-0">Gauge indicates confidence level of prediction</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="text-center">
                                     <h5 class="mt-3 mb-1">Neural Network</h5>
                                     <p class="m-0">{{NN_class}}</p>
                                     <br>
@@ -256,14 +307,15 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class="col-lg-6 col-sm-6">
                         <div class="card">
                             <div class="card-body">
                                 <div class="text-center">
-                                    <span class="display-2"><i class="fas fa-grip-horizontal"></i></span>
+                                    <span class="display-2"><i class="fas fa-th"></i></span>
                                     <h1 class="mt-3" style = "color:{{Final_color}}">{{Final_class}}</h1>
                                     <br>
-                                    <h6>The combined opinion of the six models through hard voting is {{Final_class}}. <br>
+                                    <h6>The combined opinion of the nine models through hard voting is {{Final_class}}. <br>
                                     If tie, soft voting was performed. <br>
                                     If you want to test this application again, please click the button below.</h6>
                                     <br>
