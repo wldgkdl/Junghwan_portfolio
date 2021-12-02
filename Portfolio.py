@@ -14,7 +14,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
 from tensorflow.keras.models import load_model
-# from sklearn.ensemble import AdaBoostClassifier
+from sklearn.ensemble import AdaBoostClassifier
 # from xgboost import XGBClassifier
 from sklearn.neighbors import KNeighborsClassifier
 
@@ -42,7 +42,7 @@ saved_NB = load('trained_models/nb.joblib')
 saved_NN = load_model('trained_models/trained_NN.h5')
 
 # 7. Adaboost
-#saved_AB = load('trained_models/AB.joblib')
+saved_AB = load('trained_models/AB.joblib')
 
 # 8. XGBoost
 #saved_XGB = load('trained_models/XGB.joblib')
@@ -108,8 +108,8 @@ def form():
     #print(RF_proba)
     #print("The results of Random Forest is",RF[0])
 
-    # AB_proba = saved_AB.predict_proba([data])
-    # AB = np.argmax(AB_proba[0])
+    AB_proba = saved_AB.predict_proba([data])
+    AB = np.argmax(AB_proba[0])
     
     SVC_proba = saved_svc.predict_proba([data])
     SVC = np.argmax(SVC_proba[0])
@@ -191,9 +191,9 @@ def form():
     RF_proba = return_proba(RF_proba)
     RF_color = return_color(RF)
 
-    # AB_class = index2class(AB)
-    # AB_proba = return_proba(AB_proba)
-    # AB_color = return_color(AB)
+    AB_class = index2class(AB)
+    AB_proba = return_proba(AB_proba)
+    AB_color = return_color(AB)
 
     SVC_class = index2class(SVC)
     SVC_proba = return_proba(SVC_proba)
@@ -245,9 +245,9 @@ def form():
                                           NN_class = NN_class,
                                           NN_proba = NN_proba,
                                           NN_color = NN_color,
-                                          # AB_class = AB_class,
-                                          # AB_proba = AB_proba,
-                                          # AB_color = AB_color,
+                                          AB_class = AB_class,
+                                          AB_proba = AB_proba,
+                                          AB_color = AB_color,
                                           # XGB_class = XGB_class,
                                           # XGB_proba = XGB_proba,
                                           # XGB_color = XGB_color,
