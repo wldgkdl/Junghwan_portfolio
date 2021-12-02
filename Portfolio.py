@@ -15,7 +15,7 @@ from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
 from tensorflow.keras.models import load_model
 from sklearn.ensemble import AdaBoostClassifier
-# from xgboost import XGBClassifier
+from xgboost import XGBClassifier
 from sklearn.neighbors import KNeighborsClassifier
 
 
