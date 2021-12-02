@@ -16,7 +16,7 @@ from sklearn.naive_bayes import GaussianNB
 from tensorflow.keras.models import load_model
 # from sklearn.ensemble import AdaBoostClassifier
 # from xgboost import XGBClassifier
-# from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neighbors import KNeighborsClassifier
 
 
 import os
@@ -48,7 +48,7 @@ saved_NN = load_model('trained_models/trained_NN.h5')
 #saved_XGB = load('trained_models/XGB.joblib')
 
 # 9. KNN
-#saved_knn = load('trained_models/trained_KNN.joblib')
+saved_knn = load('trained_models/trained_KNN.joblib')
 
 app = Flask(__name__)
 app.secret_key = "wjdghks3#"
@@ -133,8 +133,8 @@ def form():
     # XGB_proba = saved_XGB.predict_proba(my_scaler.transform([transformed_data]))
     # XGB = np.argmax(XGB_proba[0])
 
-    # KNN_proba = saved_knn.predict_proba(my_scaler.transform([transformed_data]))
-    # KNN = np.argmax(KNN_proba[0])
+    KNN_proba = saved_knn.predict_proba(my_scaler.transform([transformed_data]))
+    KNN = np.argmax(KNN_proba[0])
 
     NN_proba = saved_NN.predict(my_scaler.transform([transformed_data]))
     NN = np.argmax(NN_proba)
@@ -211,9 +211,9 @@ def form():
     # XGB_proba = return_proba(XGB_proba)
     # XGB_color = return_color(XGB)
 
-    # KNN_class = index2class(KNN)
-    # KNN_proba = return_proba(KNN_proba)
-    # KNN_color = return_color(KNN)
+    KNN_class = index2class(KNN)
+    KNN_proba = return_proba(KNN_proba)
+    KNN_color = return_color(KNN)
 
     NN_class = index2class(NN)
     NN_proba = return_proba(NN_proba)
@@ -251,9 +251,9 @@ def form():
                                           # XGB_class = XGB_class,
                                           # XGB_proba = XGB_proba,
                                           # XGB_color = XGB_color,
-                                          # KNN_class = KNN_class,
-                                          # KNN_proba = KNN_proba,
-                                          # KNN_color = KNN_color,
+                                          KNN_class = KNN_class,
+                                          KNN_proba = KNN_proba,
+                                          KNN_color = KNN_color,
                                           Final_class = Final_class,
                                           Final_color = Final_color
                                           )
