@@ -144,18 +144,18 @@ def form():
 
     #Ensemble_hard_voted = (DT + RF + SVC + NB + LR + NN)/6
     try:
-        Ensemble_hard_voted = mode([DT ,RF ,SVC ,NB ,LR ,NN])   #KNN, XGB, AB
+        Ensemble_hard_voted = mode([DT ,RF ,SVC ,NB ,LR ,NN, KNN, XGB])   # AB
         # len_hard_voted = [DT ,RF ,SVC ,NB ,LR ,NN].count(Ensemble_hard_voted)
         # if len_hard_voted < 3:
         #     Ensemble_hard_voted = round((DT + RF + SVC + NB + LR + NN)/6)
     except:
-        sum_list = [a + b + c + d + e + f for a, b, c, d, e, f in zip(DT_proba[0], 
+        sum_list = [a + b + c + d + e + f + g + h for a, b, c, d, e, f, g, h in zip(DT_proba[0], 
                                                                       RF_proba[0], 
                                                                       SVC_proba[0], 
                                                                       NB_proba[0],
                                                                       LR_proba[0],
-                                                                      # KNN_proba[0],
-                                                                      # XGB_proba[0],
+                                                                      KNN_proba[0],
+                                                                      XGB_proba[0],
                                                                       # AB_proba[0],
                                                                       NN_proba)]
         # print(max(sum_list))
