@@ -45,7 +45,7 @@ saved_NN = load_model('trained_models/trained_NN.h5')
 # saved_AB = load('trained_models/AB.joblib')
 
 # 8. XGBoost
-#saved_XGB = load('trained_models/XGB.joblib')
+saved_XGB = load('trained_models/XGB.joblib')
 
 # 9. KNN
 saved_knn = load('trained_models/trained_KNN.joblib')
@@ -130,8 +130,8 @@ def form():
     #print(LR_proba)
     #print("The results of Logistic Regression is",LR[0])
 
-    # XGB_proba = saved_XGB.predict_proba(my_scaler.transform([transformed_data]))
-    # XGB = np.argmax(XGB_proba[0])
+    XGB_proba = saved_XGB.predict_proba(my_scaler.transform([transformed_data]))
+    XGB = np.argmax(XGB_proba[0])
 
     KNN_proba = saved_knn.predict_proba(my_scaler.transform([transformed_data]))
     KNN = np.argmax(KNN_proba[0])
@@ -207,9 +207,9 @@ def form():
     LR_proba = return_proba(LR_proba)
     LR_color = return_color(LR)
 
-    # XGB_class = index2class(XGB)
-    # XGB_proba = return_proba(XGB_proba)
-    # XGB_color = return_color(XGB)
+    XGB_class = index2class(XGB)
+    XGB_proba = return_proba(XGB_proba)
+    XGB_color = return_color(XGB)
 
     KNN_class = index2class(KNN)
     KNN_proba = return_proba(KNN_proba)
@@ -248,9 +248,9 @@ def form():
                                           # AB_class = AB_class,
                                           # AB_proba = AB_proba,
                                           # AB_color = AB_color,
-                                          # XGB_class = XGB_class,
-                                          # XGB_proba = XGB_proba,
-                                          # XGB_color = XGB_color,
+                                          XGB_class = XGB_class,
+                                          XGB_proba = XGB_proba,
+                                          XGB_color = XGB_color,
                                           KNN_class = KNN_class,
                                           KNN_proba = KNN_proba,
                                           KNN_color = KNN_color,
