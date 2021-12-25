@@ -62,6 +62,10 @@ def portfolio():
 def spec():
     return render_template("question_form.html")
 
+@app.route("/spec2", methods = ["POST", "GET"])
+def spec2():
+    return render_template("question_form2.html")
+
 @app.route("/form", methods = ["POST"])
 def form():
 
@@ -258,9 +262,24 @@ def form():
                                           Final_color = Final_color
                                           )
 
+@app.route("/form2", methods = ["POST"])
+def form2():
+
+    # Bring personal spec from the form
+    movie_name = request.form.get('movie name')
+    algo = request.form.get('algo')
+    print(movie_name)
+    print(algo)
+    return render_template("index2.html", original_h = movie_name,
+                                          original_w = algo)
+                                       
+                                    
+                                        
+                                          
+
 
 if __name__ == '__main__':
-    #os.environ['FLASK_ENV'] = 'development'
+    os.environ['FLASK_ENV'] = 'development'
     app.run(debug = True)
 
 
