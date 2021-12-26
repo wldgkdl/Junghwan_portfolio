@@ -283,12 +283,22 @@ def form():
 def form2():
 
     # Bring personal spec from the form
-    movie_name = request.form.get('movie name')
-    algo = request.form.get('algo')
+    try:
+        typed_name = request.form.get('name')
+    except:
+        pass
+    try:
+        movie_name = request.form.get('movie_sample')
+    except:
+        pass
+    if typed_name:
+        movie_name = typed_name
+    algo = request.form.get('filter')
     print(movie_name)
     print(algo)
-    return render_template("index2.html", original_h = movie_name,
-                                          original_w = algo)
+    return render_template("movie_visualization.html", 
+                            movie_name = movie_name, 
+                            algo = algo)
                                        
                                     
                                         
