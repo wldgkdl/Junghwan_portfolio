@@ -20,8 +20,9 @@ from sklearn.neighbors import KNeighborsClassifier
 
 
 import os
-#os.environ['KMP_DUPLICATE_LIB_OK']='True'
+os.environ['KMP_DUPLICATE_LIB_OK']='True'
 #os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
+
 
 # 1. Decision Tree 
 saved_clf = load('trained_models/clf_after_grid.joblib')
@@ -62,9 +63,25 @@ def portfolio():
 def spec():
     return render_template("question_form.html")
 
-@app.route("/spec2", methods = ["POST", "GET"])
-def spec2():
-    return render_template("question_form2.html")
+@app.route("/spec_movie0", methods = ["POST", "GET"])
+def spec_movie0():
+    if request.method == "GET":
+        return render_template("index_movie0.html")
+    else:
+        if request.form.get('choice') == 'select':
+            return redirect(url_for('spec_movie2'))
+        else:
+            return redirect(url_for('spec_movie1'))
+
+    
+
+@app.route("/spec_movie1", methods = ["POST", "GET"])
+def spec_movie1():
+    return render_template("index_movie1.html")
+
+@app.route("/spec_movie2", methods = ["POST", "GET"])
+def spec_movie2():
+    return render_template("index_movie2.html")
 
 @app.route("/form", methods = ["POST"])
 def form():
@@ -279,7 +296,7 @@ def form2():
 
 
 if __name__ == '__main__':
-    os.environ['FLASK_ENV'] = 'development'
+    #os.environ['FLASK_ENV'] = 'development'
     app.run(debug = True)
 
 
