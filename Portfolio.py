@@ -5,6 +5,7 @@ from joblib import dump, load
 from sklearn.preprocessing import StandardScaler
 import joblib
 import numpy as np
+import pandas as pd
 import pickle
 from statistics import mode
 
@@ -55,6 +56,30 @@ app = Flask(__name__)
 app.secret_key = "wjdghks3#"
 
 
+# Movie overview data & matrix
+cosine_sim1_1 = np.load('matrixs_meta/cosine_sim1_1_overview.npy')
+cosine_sim1_2 = np.load('matrixs_meta/cosine_sim1_2_overview.npy')
+cosine_sim = np.concatenate((cosine_sim1_1, cosine_sim1_2))
+# print(cosine_sim.shape)
+
+indices = pd.read_csv('matrixs_meta/indices.csv')
+indices.set_index('title', inplace = True)
+# print(indices.loc['The Dark Knight Rises'][0])
+
+
+# Movie metadata & matrix
+cosine_sim2_1 = np.load('matrixs_meta/cosine_sim2_1_metadata.npy')
+cosine_sim2_2 = np.load('matrixs_meta/cosine_sim2_2_metadata.npy')
+cosine_sim2 = np.concatenate((cosine_sim2_1, cosine_sim2_2))
+# print(cosine_sim.shape)
+
+indices2 = pd.read_csv('matrixs_meta/indices2.csv')
+indices2.set_index('title_x', inplace = True)
+
+titles = pd.read_csv('matrixs_meta/titles.csv')
+lower_title = [i.lower() for i in titles['title']]
+original_titles = [i for i in titles['title']]
+
 @app.route("/")
 def portfolio():
     return render_template("index.html")
@@ -82,6 +107,13 @@ def spec_movie1():
 @app.route("/spec_movie2", methods = ["POST", "GET"])
 def spec_movie2():
     return render_template("index_movie2.html")
+
+@app.route("/spec_movie3/<some_list>", methods = ["POST", "GET"])
+def spec_movie3(some_list):
+    print(some_list)
+    similar_titles = some_list.split(',')
+    return render_template("index_movie3.html", similar_titles = similar_titles,len = len(similar_titles))
+     
 
 @app.route("/form", methods = ["POST"])
 def form():
@@ -292,10 +324,66 @@ def form2():
     except:
         pass
     if typed_name:
-        movie_name = typed_name
+        if typed_name.lower() in lower_title:
+            movie_name = typed_name
+        else:
+            similar_titles = []
+            for movie in original_titles:
+                if typed_name.lower() in movie.lower():
+                    similar_titles.append(movie)
+            comma_separated = ','.join(similar_titles)
+            return redirect(url_for('spec_movie3', some_list=comma_separated))
     algo = request.form.get('filter')
-    print(movie_name)
-    print(algo)
+
+    # Function that takes in movie overview as input and outputs most similar movies
+    def get_recommendations(title, cosine_sim=cosine_sim):
+        # Get the index of the movie that matches the title
+        idx = indices.loc[title][0]
+
+        # Get the pairwsie similarity scores of all movies with that movie
+        sim_scores = list(enumerate(cosine_sim[idx]))
+
+        # Sort the movies based on the similarity scores
+        sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+
+        # Get the scores of the 10 most similar movies
+        sim_scores = sim_scores[1:11]
+
+        # Get the movie indices
+        movie_indices = [i[0] for i in sim_scores]
+
+        # Return the top 10 most similar movies
+        return titles.iloc[movie_indices]
+
+
+    # Function that takes in movie metadata as input and outputs most similar movies
+    def get_recommendations2(title, cosine_sim=cosine_sim2):
+        # Get the index of the movie that matches the title
+        idx = indices.loc[title][0]
+
+        # Get the pairwsie similarity scores of all movies with that movie
+        sim_scores = list(enumerate(cosine_sim2[idx]))
+
+        # Sort the movies based on the similarity scores
+        sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+
+        # Get the scores of the 10 most similar movies
+        sim_scores = sim_scores[1:11]
+
+        # Get the movie indices
+        movie_indices = [i[0] for i in sim_scores]
+
+        # Return the top 10 most similar movies
+        return titles.iloc[movie_indices]
+
+    results = get_recommendations(movie_name)['title']
+    #results2 = get_recommendations2('The Dark Knight Rises')['title']
+    print(results)
+    #print(results2)
+
+    
+
+
     return render_template("movie_visualization.html", 
                             movie_name = movie_name, 
                             algo = algo)
