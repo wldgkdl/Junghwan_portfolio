@@ -27,14 +27,15 @@
 		<div class="container-contact3">
 			<div class="wrap-contact3">
 				<form action="/form2" method="POST" class="contact3-form validate-form">
-					<span class="contact3-form-title">
+					<!-- <span class="contact3-form-title">
 						Which movie <br>have you seen <br>recently?
-					</span>
+					</span> -->
+					<h4>We don't have the movie title in our database. <br>Please select your favorite movie among these similar titles</h4>
 
 					<div class="wrap-input3 validate-input">
 						<div>
 							<select class="selection-2" name="movie_sample">
-								<option>Select your favorite movie among samples</option>
+								
 								{%for i in range(0, len)%}
   
 								    <option>{{similar_titles[i]}}</option>
@@ -44,12 +45,14 @@
 						<span class="focus-input3"></span>
 					</div>
 
-					
 
+
+					
+					<h4>Contents based filtering with</h4>
 					<div class="wrap-input3 validate-input">
 						<div>
 							<select class="selection-2" name="filter">
-								<option>Contents based filtering with</option>
+								
 								<option>Plot description</option>
 								<option>Credits, Genres and Keywords</option>
 							</select>

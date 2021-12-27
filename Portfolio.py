@@ -112,6 +112,7 @@ def spec_movie2():
 def spec_movie3(some_list):
     print(some_list)
     similar_titles = some_list.split(',')
+    #similar_titles = ['apple', 'banana']
     return render_template("index_movie3.html", similar_titles = similar_titles,len = len(similar_titles))
      
 
@@ -328,9 +329,12 @@ def form2():
             movie_name = typed_name
         else:
             similar_titles = []
+            typed_keys = typed_name.split(" ")
             for movie in original_titles:
-                if typed_name.lower() in movie.lower():
-                    similar_titles.append(movie)
+                for key in typed_keys:
+                    if key.lower() in movie.lower():
+                        similar_titles.append(movie)
+            similar_titles = list(set(similar_titles))
             comma_separated = ','.join(similar_titles)
             return redirect(url_for('spec_movie3', some_list=comma_separated))
     algo = request.form.get('filter')
