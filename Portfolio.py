@@ -62,6 +62,8 @@ cosine_sim1_2 = np.load('matrixs_meta/cosine_sim1_2_overview.npy')
 cosine_sim = np.concatenate((cosine_sim1_1, cosine_sim1_2))
 # print(cosine_sim.shape)
 
+
+
 indices = pd.read_csv('matrixs_meta/indices.csv')
 indices.set_index('title', inplace = True)
 # print(indices.loc['The Dark Knight Rises'][0])
@@ -72,6 +74,7 @@ cosine_sim2_1 = np.load('matrixs_meta/cosine_sim2_1_metadata.npy')
 cosine_sim2_2 = np.load('matrixs_meta/cosine_sim2_2_metadata.npy')
 cosine_sim2 = np.concatenate((cosine_sim2_1, cosine_sim2_2))
 # print(cosine_sim.shape)
+
 
 indices2 = pd.read_csv('matrixs_meta/indices2.csv')
 indices2.set_index('title_x', inplace = True)
@@ -324,9 +327,11 @@ def form2():
         movie_name = request.form.get('movie_sample')
     except:
         pass
+
     if typed_name:
         if typed_name.lower() in lower_title:
-            movie_name = typed_name
+
+            movie_name = original_titles[lower_title.index(typed_name.lower())]
         else:
             similar_titles = []
             typed_keys = typed_name.split(" ")
@@ -337,6 +342,7 @@ def form2():
             similar_titles = list(set(similar_titles))
             comma_separated = ','.join(similar_titles)
             return redirect(url_for('spec_movie3', some_list=comma_separated))
+
     algo = request.form.get('filter')
 
     # Function that takes in movie overview as input and outputs most similar movies
@@ -352,12 +358,13 @@ def form2():
 
         # Get the scores of the 10 most similar movies
         sim_scores = sim_scores[1:11]
+        
 
         # Get the movie indices
         movie_indices = [i[0] for i in sim_scores]
 
         # Return the top 10 most similar movies
-        return titles.iloc[movie_indices]
+        return titles.iloc[movie_indices], sim_scores
 
 
     # Function that takes in movie metadata as input and outputs most similar movies
@@ -378,19 +385,44 @@ def form2():
         movie_indices = [i[0] for i in sim_scores]
 
         # Return the top 10 most similar movies
-        return titles.iloc[movie_indices]
+        return titles.iloc[movie_indices], sim_scores
+    
+    if algo == 'Plot description':
+        results, sim_scores = get_recommendations(movie_name)[0]['title'], get_recommendations(movie_name)[1]
+        # to make up similarity gap between plot description and metadata
+        sim_scores = [int(i[1]*150) for i in sim_scores]  
+    else:
+        results, sim_scores = get_recommendations2(movie_name)[0]['title'], get_recommendations2(movie_name)[1]
+        sim_scores = [int(i[1]*100) for i in sim_scores]
 
-    results = get_recommendations(movie_name)['title']
-    #results2 = get_recommendations2('The Dark Knight Rises')['title']
-    print(results)
+    results = [i for i in results]
+    top1 = results[0]
+    
+
+
     #print(results2)
+    above50 = 0
+    above30 = 0
+    for i in sim_scores:
+        if i > 50:
+            above50 += 1 
+        elif i > 20:
+            above30 += 1 
+        else:
+            pass
 
     
 
 
     return render_template("movie_visualization.html", 
                             movie_name = movie_name, 
-                            algo = algo)
+                            algo = algo,
+                            results = results,
+                            sim_scores = sim_scores,
+                            len = len(results),
+                            above50 = above50,
+                            above30 = above30,
+                            top1 = top1)
                                        
                                     
                                         
