@@ -21,7 +21,7 @@ from sklearn.neighbors import KNeighborsClassifier
 
 
 import os
-os.environ['KMP_DUPLICATE_LIB_OK']='True'
+#os.environ['KMP_DUPLICATE_LIB_OK']='True'
 #os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
 
 
@@ -91,32 +91,32 @@ def portfolio():
 def spec():
     return render_template("question_form.html")
 
-@app.route("/spec_movie0", methods = ["POST", "GET"])
-def spec_movie0():
-    if request.method == "GET":
-        return render_template("index_movie0.html")
-    else:
-        if request.form.get('choice') == 'select':
-            return redirect(url_for('spec_movie2'))
-        else:
-            return redirect(url_for('spec_movie1'))
+# @app.route("/spec_movie0", methods = ["POST", "GET"])
+# def spec_movie0():
+#     if request.method == "GET":
+#         return render_template("index_movie0.html")
+#     else:
+#         if request.form.get('choice') == 'select':
+#             return redirect(url_for('spec_movie2'))
+#         else:
+#             return redirect(url_for('spec_movie1'))
 
     
 
-@app.route("/spec_movie1", methods = ["POST", "GET"])
-def spec_movie1():
-    return render_template("index_movie1.html")
+# @app.route("/spec_movie1", methods = ["POST", "GET"])
+# def spec_movie1():
+#     return render_template("index_movie1.html")
 
-@app.route("/spec_movie2", methods = ["POST", "GET"])
-def spec_movie2():
-    return render_template("index_movie2.html")
+# @app.route("/spec_movie2", methods = ["POST", "GET"])
+# def spec_movie2():
+#     return render_template("index_movie2.html")
 
-@app.route("/spec_movie3/<some_list>", methods = ["POST", "GET"])
-def spec_movie3(some_list):
-    print(some_list)
-    similar_titles = some_list.split(',')
-    #similar_titles = ['apple', 'banana']
-    return render_template("index_movie3.html", similar_titles = similar_titles,len = len(similar_titles))
+# @app.route("/spec_movie3/<some_list>", methods = ["POST", "GET"])
+# def spec_movie3(some_list):
+#     print(some_list)
+#     similar_titles = some_list.split(',')
+#     #similar_titles = ['apple', 'banana']
+#     return render_template("index_movie3.html", similar_titles = similar_titles,len = len(similar_titles))
      
 
 @app.route("/form", methods = ["POST"])
@@ -315,114 +315,114 @@ def form():
                                           Final_color = Final_color
                                           )
 
-@app.route("/form2", methods = ["POST"])
-def form2():
+# @app.route("/form2", methods = ["POST"])
+# def form2():
 
-    # Bring personal spec from the form
-    try:
-        typed_name = request.form.get('name')
-    except:
-        pass
-    try:
-        movie_name = request.form.get('movie_sample')
-    except:
-        pass
+#     # Bring personal spec from the form
+#     try:
+#         typed_name = request.form.get('name')
+#     except:
+#         pass
+#     try:
+#         movie_name = request.form.get('movie_sample')
+#     except:
+#         pass
 
-    if typed_name:
-        if typed_name.lower() in lower_title:
+#     if typed_name:
+#         if typed_name.lower() in lower_title:
 
-            movie_name = original_titles[lower_title.index(typed_name.lower())]
-        else:
-            similar_titles = []
-            typed_keys = typed_name.split(" ")
-            for movie in original_titles:
-                for key in typed_keys:
-                    if key.lower() in movie.lower():
-                        similar_titles.append(movie)
-            similar_titles = list(set(similar_titles))
-            comma_separated = ','.join(similar_titles)
-            return redirect(url_for('spec_movie3', some_list=comma_separated))
+#             movie_name = original_titles[lower_title.index(typed_name.lower())]
+#         else:
+#             similar_titles = []
+#             typed_keys = typed_name.split(" ")
+#             for movie in original_titles:
+#                 for key in typed_keys:
+#                     if key.lower() in movie.lower():
+#                         similar_titles.append(movie)
+#             similar_titles = list(set(similar_titles))
+#             comma_separated = ','.join(similar_titles)
+#             return redirect(url_for('spec_movie3', some_list=comma_separated))
 
-    algo = request.form.get('filter')
+#     algo = request.form.get('filter')
 
-    # Function that takes in movie overview as input and outputs most similar movies
-    def get_recommendations(title, cosine_sim=cosine_sim):
-        # Get the index of the movie that matches the title
-        idx = indices.loc[title][0]
+#     # Function that takes in movie overview as input and outputs most similar movies
+#     def get_recommendations(title, cosine_sim=cosine_sim):
+#         # Get the index of the movie that matches the title
+#         idx = indices.loc[title][0]
 
-        # Get the pairwsie similarity scores of all movies with that movie
-        sim_scores = list(enumerate(cosine_sim[idx]))
+#         # Get the pairwsie similarity scores of all movies with that movie
+#         sim_scores = list(enumerate(cosine_sim[idx]))
 
-        # Sort the movies based on the similarity scores
-        sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+#         # Sort the movies based on the similarity scores
+#         sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
 
-        # Get the scores of the 10 most similar movies
-        sim_scores = sim_scores[1:11]
+#         # Get the scores of the 10 most similar movies
+#         sim_scores = sim_scores[1:11]
         
 
-        # Get the movie indices
-        movie_indices = [i[0] for i in sim_scores]
+#         # Get the movie indices
+#         movie_indices = [i[0] for i in sim_scores]
 
-        # Return the top 10 most similar movies
-        return titles.iloc[movie_indices], sim_scores
+#         # Return the top 10 most similar movies
+#         return titles.iloc[movie_indices], sim_scores
 
 
-    # Function that takes in movie metadata as input and outputs most similar movies
-    def get_recommendations2(title, cosine_sim=cosine_sim2):
-        # Get the index of the movie that matches the title
-        idx = indices.loc[title][0]
+#     # Function that takes in movie metadata as input and outputs most similar movies
+#     def get_recommendations2(title, cosine_sim=cosine_sim2):
+#         # Get the index of the movie that matches the title
+#         idx = indices.loc[title][0]
 
-        # Get the pairwsie similarity scores of all movies with that movie
-        sim_scores = list(enumerate(cosine_sim2[idx]))
+#         # Get the pairwsie similarity scores of all movies with that movie
+#         sim_scores = list(enumerate(cosine_sim2[idx]))
 
-        # Sort the movies based on the similarity scores
-        sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+#         # Sort the movies based on the similarity scores
+#         sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
 
-        # Get the scores of the 10 most similar movies
-        sim_scores = sim_scores[1:11]
+#         # Get the scores of the 10 most similar movies
+#         sim_scores = sim_scores[1:11]
 
-        # Get the movie indices
-        movie_indices = [i[0] for i in sim_scores]
+#         # Get the movie indices
+#         movie_indices = [i[0] for i in sim_scores]
 
-        # Return the top 10 most similar movies
-        return titles.iloc[movie_indices], sim_scores
+#         # Return the top 10 most similar movies
+#         return titles.iloc[movie_indices], sim_scores
     
-    if algo == 'Plot description':
-        results, sim_scores = get_recommendations(movie_name)[0]['title'], get_recommendations(movie_name)[1]
-        # to make up similarity gap between plot description and metadata
-        sim_scores = [int(i[1]*150) for i in sim_scores]  
-    else:
-        results, sim_scores = get_recommendations2(movie_name)[0]['title'], get_recommendations2(movie_name)[1]
-        sim_scores = [int(i[1]*100) for i in sim_scores]
+#     if algo == 'Plot description':
+#         results, sim_scores = get_recommendations(movie_name)[0]['title'], get_recommendations(movie_name)[1]
+#         # to make up similarity gap between plot description and metadata
+#         sim_scores = [int(i[1]*150) for i in sim_scores]  
+#     else:
+#         results, sim_scores = get_recommendations2(movie_name)[0]['title'], get_recommendations2(movie_name)[1]
+#         sim_scores = [int(i[1]*100) for i in sim_scores]
 
-    results = [i for i in results]
-    top1 = results[0]
-    
-
-
-    #print(results2)
-    above50 = 0
-    above30 = 0
-    for i in sim_scores:
-        if i > 49:
-            above50 += 1 
-        elif i > 19:
-            above30 += 1 
-        else:
-            pass
-
+#     results = [i for i in results]
+#     top1 = results[0]
     
 
 
-    return render_template("movie_visualization.html", 
-                            movie_name = movie_name, 
-                            algo = algo,
-                            results = results,
-                            sim_scores = sim_scores,
-                            len = len(results),
-                            above50 = above50,
-                            above30 = above30,
-                            top1 = top1)
+#     #print(results2)
+#     above50 = 0
+#     above30 = 0
+#     for i in sim_scores:
+#         if i > 49:
+#             above50 += 1 
+#         elif i > 19:
+#             above30 += 1 
+#         else:
+#             pass
+
+    
+
+
+#     return render_template("movie_visualization.html", 
+#                             movie_name = movie_name, 
+#                             algo = algo,
+#                             results = results,
+#                             sim_scores = sim_scores,
+#                             len = len(results),
+#                             above50 = above50,
+#                             above30 = above30,
+#                             top1 = top1)
                                        
                                     
                                         
