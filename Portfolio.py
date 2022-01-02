@@ -431,7 +431,7 @@ def form2():
 
 if __name__ == '__main__':
     #os.environ['FLASK_ENV'] = 'development'
-    app.run(debug = False)
+    app.run(debug = True)
 
 
 
