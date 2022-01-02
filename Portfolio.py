@@ -404,9 +404,9 @@ def form2():
     above50 = 0
     above30 = 0
     for i in sim_scores:
-        if i > 50:
+        if i > 49:
             above50 += 1 
-        elif i > 20:
+        elif i > 19:
             above30 += 1 
         else:
             pass
@@ -431,7 +431,7 @@ def form2():
 
 if __name__ == '__main__':
     #os.environ['FLASK_ENV'] = 'development'
-    app.run(debug = True)
+    app.run(debug = False)
 
 
 
